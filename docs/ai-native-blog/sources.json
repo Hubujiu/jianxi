@@ -1,0 +1,1153 @@
+{
+  "researched_on": "2026-10-07",
+  "requirements_updated_on": "2026-10-07",
+  "timezone": "Asia/Shanghai",
+  "purpose": "Requirements confirmation and technology research for Jianxi, an independently built lightweight Go AI-native domestic Chinese blog.",
+  "authoritative_requirements": "docs/ai-native-blog/requirements.md",
+  "confirmed_requirements": {
+    "backend": "Go",
+    "deployment": "Personal single site, one machine or one container, low maintenance",
+    "audience": "Domestic China only",
+    "interface_language": "Chinese only",
+    "public_reading_pages": "Static generated HTML",
+    "admin_settings_ui": true,
+    "authentication": "One master token grants all admin and MCP permissions; no accounts, roles, permission scopes or OAuth system",
+    "content_input": "All articles, About content, taxonomy and media uploaded or updated by AI through MCP",
+    "mcp_clients": "Local Codex or Claude Desktop; stdio bridge to one Go service",
+    "publication": "Independent working copy, upload, parse/validate, CAS commit new draft, explicit change set, built private preview, confirmation, server-time finalization and activation",
+    "categories": "One primary category per article, flat categories",
+    "tags": "Multiple tags per article",
+    "toc_anchor_navigation": true,
+    "search": "Required Chinese article title/body search with category/tag matching and filters",
+    "pages": [
+      "home",
+      "article",
+      "category index",
+      "category listing",
+      "tag index",
+      "tag listing",
+      "search",
+      "About",
+      "404"
+    ],
+    "timestamps": "First publication and substantive content update separately displayed",
+    "content_history": {
+      "historical_published_versions": 3,
+      "current_version_additional": true,
+      "preview": true,
+      "rollback": true,
+      "unit": "Each article and About independently; retained last publication plus three older versions when unpublished"
+    },
+    "backup": {
+      "export": true,
+      "import": true,
+      "mode": "Whole-site complete business restore, including working copies/uploads, drafts, history, reports/evidence, operation records and third-party credentials",
+      "authentication": "Retain current instance master token; invalidate sessions; never revive runtime locks or replay old jobs",
+      "external_media": "Restore references only, not remote media bytes"
+    },
+    "seo_and_ai_discovery": true,
+    "domestic_push_credentials_configurable": true,
+    "third_party_analytics": "Traffic analytics first; SEO/GEO dashboard links and report import; API integration later when documented",
+    "rss_or_atom": false,
+    "google_integration": false,
+    "multilingual_or_english_pages": false,
+    "article_editor": false,
+    "plugin_system": false,
+    "theme_system": false,
+    "content_format": {
+      "input": "Restricted Markdown and typed metadata; AI cannot write article HTML, templates, CSS/JS or output paths",
+      "latex": "Inline and block mathematics compiled before publication; not arbitrary TeX documents",
+      "html_markdown_code_blocks": "Escaped source with static syntax highlighting; no execution or recursive compilation",
+      "other_code_blocks": "Common languages highlighted; unknown languages become plain text",
+      "mermaid": "Restricted declarative source compiled before publication into controlled static diagram assets",
+      "raw_html_in_body": "Rejected by AST with diagnostics; HTML in code examples remains valid",
+      "compile_failure": "Invalid candidate cannot publish; old release remains available",
+      "uploaded_images": [
+        "PNG",
+        "JPEG",
+        "WebP",
+        "AVIF",
+        "GIF"
+      ],
+      "external_images": "HTTPS references loaded by browser; no automatic backend fetch/proxy",
+      "external_video": "User confirmed platform-adapted players from structured URLs; no arbitrary iframe HTML",
+      "video_file_upload": false
+    },
+    "withdrawal": "Rollback selected content to a retained version or unpublish as draft; preserve independent working copies",
+    "permanent_deletion": "Physical removal of content and all recoverable copies managed by this system; shared assets retained for other references; externally downloaded backups and third-party caches outside control"
+  },
+  "recommended_technical_choices": {
+    "http_and_templates": "net/http and html/template, native CSS, minimal vanilla JavaScript",
+    "canonical_store": "SQLite",
+    "search": "Read-only dynamic HTML form endpoint; FTS5 trigram for terms >=3 Unicode characters, literal scan fallback for shorter terms; index bound to active release",
+    "first_push_adapter": "Baidu ordinary submission, enabled after real account and site verification",
+    "first_traffic_provider_candidate": "Baidu Tongji; provider not selected by the user",
+    "backup_import_mode": "Validated whole-site restore, retain current auth configuration",
+    "auth_storage": "Private digest/generation configuration; environment token only bootstraps first setup",
+    "rendering": {
+      "markdown": "Goldmark with fixed GFM/Footnote/math/diagram extensions and AST validation",
+      "code": "Go Chroma static HTML and classes",
+      "math": "KaTeX renderToString into HTML and MathML; self-hosted CSS/fonts",
+      "diagrams": "Mermaid CLI generating verified SVG, embedded as self-hosted images",
+      "build_dependencies": "Fixed Node, Puppeteer, Chrome/Chromium and fonts remain in online publishing environment; bounded subprocesses, no separate Node API service",
+      "reading_javascript": "No formula/diagram runtime JavaScript required",
+      "costs": "Image size, build peak memory, cold start and renderer compatibility not yet measured"
+    },
+    "activation_authority": "SQLite active release; durable immutable artifacts first, database transaction second, in-memory snapshot derived from database",
+    "preview_finalization": "Build content before confirmation; only bound server timestamps and direct derived fields/order may change during finalization; record finalArtifactHash"
+  },
+  "open_decisions": [
+    "Actual traffic analytics provider and optional third-party SEO/GEO services",
+    "Actual domain, hosting location and private connection from the local stdio bridge",
+    "Video provider adapter list to be verified during implementation; embedding boundary already confirmed"
+  ],
+  "scope_history": [
+    {
+      "date": "2026-10-07",
+      "superseded": "Domestic/international audience, possible Chinese/English variants, separate draft and owner privileges",
+      "current": "Domestic Chinese only, one full-permission master token, required admin settings/search/taxonomy"
+    },
+    {
+      "date": "2026-10-07",
+      "confirmed_followups": "Flat single primary category with multiple tags; analytics plus SEO/GEO links/report import; all content via AI; three historical versions and preview/rollback; export/import backup; no RSS"
+    },
+    {
+      "date": "2026-10-07",
+      "confirmed_followups": "LaTeX formulas, HTML/Markdown/code blocks, Mermaid diagrams; AI supplies constrained source, program compiles static UI; no direct HTML edits"
+    },
+    {
+      "date": "2026-10-07",
+      "confirmed_followups": "Per-content current plus three published old versions; explicit change sets; rollback or unpublish; physical deletion; independent copy upload/parse/new draft workflow; AVIF and external images, adapted external video players without hosting; complete business restore; reviewed conflict resolutions accepted",
+      "evidence": "User decision replies in current chat; no additional web research"
+    }
+  ],
+  "research_summary": {
+    "provider": "Exa",
+    "original_requested_search_result_slots": 105,
+    "new_requested_search_result_slots": 50,
+    "new_workstreams": {
+      "Chinese_search_and_stack": 20,
+      "Domestic_SEO_GEO_and_analytics": 30
+    },
+    "requested_search_result_slots": 180,
+    "successful_search_result_slots": 175,
+    "failed_request_slots": 5,
+    "new_search_request_failures": 0,
+    "new_fetch_failures_resolved_by_alternative_primary_pages": 1,
+    "count_note": "Sum of requested numResults; includes duplicates, excluded hits and the original invalid request. Not a count of unique validated sources.",
+    "referenced_urls_after_url_deduplication": 93,
+    "research_rounds": [
+      {
+        "name": "Initial technical research",
+        "requested_search_result_slots": 105,
+        "successful_search_result_slots": 100,
+        "failed_request_slots": 5
+      },
+      {
+        "name": "Domestic Chinese admin and content requirements",
+        "requested_search_result_slots": 50,
+        "successful_search_result_slots": 50,
+        "failed_request_slots": 0
+      },
+      {
+        "name": "Restricted source and static rich-content rendering",
+        "requested_search_result_slots": 25,
+        "successful_search_result_slots": 25,
+        "failed_request_slots": 0,
+        "workstreams": {
+          "renderer_and_build_dependencies": 20,
+          "fixed_Goldmark_AST_contract": 5
+        }
+      }
+    ],
+    "latest_requested_search_result_slots": 25,
+    "latest_search_request_failures": 0,
+    "latest_fetch_failures": 0
+  },
+  "candidate_versions": [
+    {
+      "component": "Go toolchain",
+      "version": "1.27.1",
+      "sources": [
+        "https://go.dev/doc/devel/release",
+        "https://go.dev/dl/?mode=json"
+      ]
+    },
+    {
+      "component": "MCP protocol",
+      "version": "2026-07-28",
+      "sources": [
+        "https://modelcontextprotocol.io/specification/latest"
+      ]
+    },
+    {
+      "component": "github.com/modelcontextprotocol/go-sdk",
+      "version": "v1.8.0",
+      "minimum_go": "1.25.0",
+      "sources": [
+        "https://github.com/modelcontextprotocol/go-sdk/releases/tag/v1.8.0",
+        "https://github.com/modelcontextprotocol/go-sdk/blob/v1.8.0/go.mod"
+      ]
+    },
+    {
+      "component": "modernc.org/sqlite",
+      "version": "v1.60.1",
+      "minimum_go": "1.26.0",
+      "paired_libc_version": "v1.77.1",
+      "sources": [
+        "https://raw.githubusercontent.com/modernc-org/sqlite/v1.60.1/go.mod",
+        "https://raw.githubusercontent.com/modernc-org/sqlite/v1.60.1/doc.go"
+      ]
+    },
+    {
+      "component": "github.com/yuin/goldmark",
+      "version": "v1.8.6",
+      "minimum_go": "1.22",
+      "sources": [
+        "https://pkg.go.dev/github.com/yuin/goldmark"
+      ]
+    },
+    {
+      "component": "github.com/alecthomas/chroma/v2",
+      "version": "v2.27.0",
+      "minimum_go": "1.25",
+      "sources": [
+        "https://raw.githubusercontent.com/alecthomas/chroma/v2.27.0/go.mod"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "url": "https://ai.baidu.com/ai-doc/AppBuilder/amaxd2det",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/SVG/Guides/SVG_as_an_image",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md"
+      ]
+    },
+    {
+      "url": "https://docs.astro.build/en/basics/astro-components/",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://docs.astro.build/en/guides/deploy/",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://docs.astro.build/en/install-and-setup/",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://esbuild.github.io/api/",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://geo.aibase.com/",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://geo.geotoolhub.com/",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://github.com/Pagefind/pagefind/issues/987",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://github.com/alecthomas/chroma",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md",
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://github.com/alecthomas/chroma/blob/master/formatters/html/html.go",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md"
+      ]
+    },
+    {
+      "url": "https://github.com/go-ego/gse",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://github.com/mattn/go-sqlite3",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://github.com/mermaid-js/mermaid-cli",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md",
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://github.com/mermaid-js/mermaid-cli/blob/master/Dockerfile",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md"
+      ]
+    },
+    {
+      "url": "https://github.com/mermaid-js/mermaid-cli/blob/master/package.json",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md"
+      ]
+    },
+    {
+      "url": "https://github.com/microcosm-cc/bluemonday",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://github.com/modelcontextprotocol/go-sdk/blob/v1.8.0/LICENSE",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://github.com/modelcontextprotocol/go-sdk/blob/v1.8.0/README.md",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://github.com/modelcontextprotocol/go-sdk/blob/v1.8.0/auth/auth.go",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://github.com/modelcontextprotocol/go-sdk/blob/v1.8.0/go.mod",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://github.com/modelcontextprotocol/go-sdk/blob/v1.8.0/mcp/streamable.go",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://github.com/modelcontextprotocol/go-sdk/releases/latest",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://github.com/modelcontextprotocol/go-sdk/releases/tag/v1.7.0",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://github.com/modelcontextprotocol/go-sdk/releases/tag/v1.8.0",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://github.com/yanyiwu/gojieba",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://github.com/yuin/goldmark-highlighting",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md"
+      ]
+    },
+    {
+      "url": "https://github.com/yuin/goldmark/blob/v1.8.6/README.md",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/decision-and-requirements.md"
+      ]
+    },
+    {
+      "url": "https://github.com/yuin/goldmark/blob/v1.8.6/ast/block.go",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/decision-and-requirements.md"
+      ]
+    },
+    {
+      "url": "https://go.dev/blog/osroot",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://go.dev/blog/routing-enhancements",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://go.dev/dl/?mode=json",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://go.dev/doc/devel/release",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://gohugo.io/commands/hugo/",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://gohugo.io/configuration/markup/",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://katex.org/docs/api.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md",
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://katex.org/docs/browser.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md",
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://katex.org/docs/options.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md"
+      ]
+    },
+    {
+      "url": "https://katex.org/docs/security.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md",
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://katex.org/docs/supported.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md"
+      ]
+    },
+    {
+      "url": "https://mermaid.js.org/config/usage.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/content-rendering.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/versioning",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/prompts",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/resources",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools#error-handling",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools#stateful-tools",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools#tool",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/latest",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://pagefind.app/docs/",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://pagefind.app/docs/multilingual/",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://pkg.go.dev/embed",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://pkg.go.dev/github.com/yuin/goldmark",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://pkg.go.dev/html/template",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://pkg.go.dev/modernc.org/sqlite",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://pkg.go.dev/net/http",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://pkg.go.dev/net/http#Cookie",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/mcp-research.md"
+      ]
+    },
+    {
+      "url": "https://pkg.go.dev/os#Rename",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/alecthomas/chroma/v2.27.0/go.mod",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mattn/go-sqlite3/v1.14.52/go.mod",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/microcosm-cc/bluemonday/v1.0.27/go.mod",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/modernc-org/sqlite/v1.60.1/doc.go",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/modernc-org/sqlite/v1.60.1/go.mod",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/yuin/goldmark/v1.8.6/go.mod",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://schema.org/BlogPosting",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://sqlite.org/backup.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/decision-and-requirements.md",
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://sqlite.org/fts5.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/decision-and-requirements.md"
+      ]
+    },
+    {
+      "url": "https://sqlite.org/wal.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/decision-and-requirements.md",
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://templ.guide/static-rendering/blog-example",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://tongji.baidu.com/api/manual/",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://tongji.baidu.com/api/manual/Chapter1/getData.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://tongji.baidu.com/api/manual/Chapter2/openapi.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://tongji.baidu.com/holmes/Analytics/%E6%8A%80%E6%9C%AF%E6%8E%A5%E5%85%A5%E6%8C%87%E5%8D%97/JS%20API/JS%20API%20%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://tongji.baidu.com/holmes/Analytics/%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C/%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86/%E6%95%B0%E6%8D%AEapi",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://tongji.baidu.com/web/help/article?id=174&type=0",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://www.5118.com/apistore/detail/0d5b519e-d2a2-e711-b5b0-d4ae52d0f72c",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://www.5118.com/service/keyword_rank_monitor",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://www.aipogeo.cn/AI%E8%83%BD%E8%A7%81%E5%BA%A6%E6%A3%80%E6%B5%8B.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://www.indexnow.org/documentation.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://www.indexnow.org/faq",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc6596",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc9309",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://www.sitemaps.org/protocol.html",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/decision-and-requirements.md"
+      ]
+    },
+    {
+      "url": "https://www.sqlite.org/fts5.html#the_trigram_tokenizer",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://www.sqlite.org/fts5.html#unicode61_tokenizer",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/stack-evaluation.md"
+      ]
+    },
+    {
+      "url": "https://ziyuan.baidu.com/college/courseinfo?id=267&page=2",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    },
+    {
+      "url": "https://ziyuan.baidu.com/linksubmit/index",
+      "source_type": "maintainer_or_publisher_primary_reference",
+      "referenced_by": [
+        "docs/ai-native-blog/distribution-research.md"
+      ]
+    }
+  ],
+  "superseded_research_references": {
+    "note": "Historical provenance only; these references are no longer evidence for the active scope.",
+    "references": [
+      {
+        "url": "https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/apis/indexing-api/v3/using-api",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/blog/2023/06/sitemaps-lastmod-ping",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/appearance/ai-features",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/appearance/snippet",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/appearance/structured-data/article",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/appearance/title-link",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/crawling-indexing/block-indexing",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/crawling-indexing/http-network-errors",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/crawling-indexing/robots/intro",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/decision-and-requirements.md",
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/search/docs/specialty/international/localized-versions",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/webmaster-tools/limits",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/webmaster-tools/v1/sitemaps/submit",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.google.com/webmaster-tools/v1/urlInspection.index/inspect",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://developers.openai.com/api/docs/bots",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://docs.perplexity.ai/docs/resources/perplexity-crawlers",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://llmstxt.org/",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/mcp-research.md"
+        ]
+      },
+      {
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/authorization-server-discovery",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/mcp-research.md"
+        ]
+      },
+      {
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/client-registration",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/mcp-research.md"
+        ]
+      },
+      {
+        "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/security-considerations",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/mcp-research.md"
+        ]
+      },
+      {
+        "url": "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://support.google.com/webmasters/answer/16908024",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://www.bing.com/indexnow/getstarted",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://www.rfc-editor.org/rfc/rfc4287",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      },
+      {
+        "url": "https://www.rfc-editor.org/rfc/rfc4287.html",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/decision-and-requirements.md"
+        ]
+      },
+      {
+        "url": "https://www.rssboard.org/rss-specification",
+        "formerly_referenced_by": [
+          "docs/ai-native-blog/distribution-research.md"
+        ]
+      }
+    ]
+  },
+  "documents": [
+    {
+      "path": "README.md",
+      "sha256": "cc8c50657d504e577aca850beb38c02085a43c80be4245763dcc8d465480ff45",
+      "bytes": 2396
+    },
+    {
+      "path": "docs/ai-native-blog/content-rendering.md",
+      "sha256": "e4e2440720278f8697504f7279b1a0f5a91083f23a034b4695a96093ccc02142",
+      "bytes": 20383
+    },
+    {
+      "path": "docs/ai-native-blog/decision-and-requirements.md",
+      "sha256": "f52d009ff4f9a4f8836c67c53835ac74a9d778bad4d8fce3d7c582e8bc295e3a",
+      "bytes": 20812
+    },
+    {
+      "path": "docs/ai-native-blog/distribution-research.md",
+      "sha256": "f4bbf141e274250b7c8f64123971ae3e67578c4a0963398794e5ca26d4cbd326",
+      "bytes": 30564
+    },
+    {
+      "path": "docs/ai-native-blog/mcp-research.md",
+      "sha256": "63deae07deb755c4548fd5058ce943dd05383179c89883eadec19115d86fd0b1",
+      "bytes": 40798
+    },
+    {
+      "path": "docs/ai-native-blog/README.md",
+      "sha256": "de63b8c59d6ad0facdc10061ebbca8c7229a30d4a2538d8414d127883fb8b763",
+      "bytes": 2701
+    },
+    {
+      "path": "docs/ai-native-blog/requirements.md",
+      "sha256": "f6b0976cd0474c654dde389f421476b63e357db05add54eef9667082b945e306",
+      "bytes": 31958
+    },
+    {
+      "path": "docs/ai-native-blog/stack-evaluation.md",
+      "sha256": "9f0a5c3de2b1015e0b3d7ece25d186b81fa8a281309e39d160da248270e64357",
+      "bytes": 43349
+    }
+  ],
+  "verification": {
+    "checked_on": "2026-10-07",
+    "local_links_checked": 35,
+    "markdown_code_fences_checked": true,
+    "utf8_checked": true,
+    "errors": [],
+    "product_implementation": false,
+    "dependency_combination_compiled": false,
+    "performance_measured": false,
+    "live_site_submitted": false,
+    "third_party_accounts_connected": false,
+    "nested_markdown_code_fences_checked": true,
+    "rendering_dependencies_installed": false,
+    "rich_content_rendering_run": false,
+    "decision_consistency_reviewed": true
+  },
+  "rendering_version_lock_status": {
+    "locked_and_compiled": false,
+    "selection_at_implementation": [
+      "KaTeX",
+      "Mermaid CLI",
+      "Puppeteer",
+      "Chromium",
+      "Node",
+      "fonts and CSS"
+    ],
+    "note": "Renderers must be pinned and recorded in preview/release manifests; no renderer combination has been executed in this documentation task."
+  }
+}

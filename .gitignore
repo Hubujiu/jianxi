@@ -1,0 +1,18 @@
+# Local browser sessions and development caches
+.playwright-cli/
+node_modules/
+.cache/
+
+# Local secrets and environment overrides
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Editor and operating system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
