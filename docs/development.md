@@ -10,11 +10,13 @@
 
 已有版本可从 Actions 页面手动运行，ref 填写 `v1.0.0`；也可以执行 `gh workflow run check.yml --repo Hubujiu/jianxi --ref main -f ref=v1.0.0`。这会使用当前工作流验证并发布已有标签对应的源码，不移动 Git 标签。
 
-首次发布后，将两个 GHCR package 的可见性设为 Public，使部署电脑和服务器无需保存拉取凭据；镜像不包含站点数据、管理密钥或浏览器会话。Chromium 的无沙箱配置仅用于临时 CI runner 和 MCP 容器，公开服务器不运行 Chromium。
+首次发布后，确认两个 GHCR package 的可见性为 Public，使部署电脑和服务器无需保存拉取凭据；镜像不包含站点数据、管理密钥或浏览器会话。Chromium 的无沙箱配置仅用于临时 CI runner 和 MCP 容器，公开服务器不运行 Chromium。CI 显式等待 Puppeteer 返回浏览器路径，并安装与 MCP 容器一致的中文字体；Linux 恢复验收允许非 root 容器读取合成测试备份，临时 token 文件保持私有权限。
 
 1Panel 编排使用 [deploy/1panel.compose.yaml](../deploy/1panel.compose.yaml)。它保持原 `jianxi-data` 数据卷、容器名、loopback 端口、512 MiB 内存和 2 CPU，镜像改为 GHCR，并设置 `pull_policy: always`。以后在 Actions 成功后，在 1Panel 更新该编排并勾选强制拉取镜像；服务器将拉取并启动新版。镜像发布本身不会自动重启服务器。更新前使用面板备份，回退时将 image 改为已验证的版本号或提交标签，继续使用同一数据卷。
 
 Docker MCP 使用 [examples/mcp-docker-config.json](../examples/mcp-docker-config.json)，每次启动通过 `--pull always` 获取镜像；更新后重新连接 MCP。原生本地 MCP 仍需更新可执行程序，该工作流仅发布容器镜像。
+
+2026-10-11 首次发布与服务器切换已完成：main [运行](https://github.com/Hubujiu/jianxi/actions/runs/38140284482) 和 v1.0.0 [运行](https://github.com/Hubujiu/jianxi/actions/runs/38140284740) 均成功；服务端和 MCP 的 `1.0.0` / `latest` 均可匿名拉取，为 Linux/amd64，版本源码提交为 `daed7ef55744d5c833857c3f20c3cfd3474f9159`。服务端版本摘要为 `sha256:eaf2283fe878d9f4456465216edbfdce16ae87ac5024383dbedf1b0aecfbaf65`，MCP 为 `sha256:96d8d4c2244ca0cea0ec89e6173b4ecd8d53d1ea9b6d563a4f0507f285147aee`。1Panel 于 20:32:54 完成停机备份并恢复启动，20:49:02 直接拉取 GHCR 成功，20:50:19 完成强制拉取、重建和启动。原 `jianxi-data` 数据卷与本地旧镜像保留。
 
 更新：2026-10-11。需求基线仍为 `ai-native-blog/requirements.md`；本文件记录实际实现，不把本地验证等同于生产验收。
 
