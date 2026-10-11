@@ -1,7 +1,7 @@
 import {execFile,spawn} from 'node:child_process';
 import {promisify} from 'node:util';
 import {createInterface} from 'node:readline';
-import {mkdtemp,readFile,rm} from 'node:fs/promises';
+import {mkdtemp,readFile,rm,chmod} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,resolve,basename,sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -119,6 +119,12 @@ try{
  console.log('PASS: actual stdio MCP, five image formats, showcase rich compilation, preview/confirm/publish and offline recompile');
  const backup=await tool('blog_backup');
  await docker('cp',`${name}:/data/backups/${backup.file}`,join(directory,'backup.zip'));
+ // The non-root MCP container has a different UID from the Linux CI runner.
+ // Permit traversal and reading only this synthetic test backup; token files stay private.
+ if(compilerImage&&process.platform!=='win32'){
+  await chmod(directory,0o711);
+  await chmod(join(directory,'backup.zip'),0o644);
+ }
  const candidate=await tool('blog_prepare_restore',{path:compilerImage?'/restore-input/backup.zip':join(directory,'backup.zip')});
  assert.equal((await status()).activeRelease,activeBefore.activeRelease);
  await tool('blog_restore_backup',{id:candidate.id,artifactHash:candidate.artifactHash});
