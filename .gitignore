@@ -2,6 +2,7 @@
 .playwright-cli/
 node_modules/
 .cache/
+output/playwright/mermaid-build/mermaid.min.js
 
 # Local secrets and environment overrides
 .env
@@ -16,3 +17,11 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
+
+# Jianxi private runtime state (includes initialization credentials and backups)
+/data/
+/bin/
+/output/
+/output/jianxi-dev.pid
+/output/docker/*.tar
+/output/docker/*.tar.gz

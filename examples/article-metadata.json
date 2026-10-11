@@ -1,0 +1,19 @@
+{
+  "id": "<working-copy content.id>",
+  "kind": "article",
+  "slug": "building-a-personal-blog",
+  "title": "搭建个人博客",
+  "summary": "记录一个简单博客的实现过程。",
+  "author": "狐不九",
+  "categoryId": "",
+  "tagIds": [],
+  "category": {
+    "name": "技术",
+    "slug": "technology"
+  },
+  "tags": [
+    { "name": "Go", "slug": "go" },
+    { "name": "个人博客", "slug": "personal-blog" }
+  ],
+  "markdown": "## 从需求开始\n\n这里填写正文。"
+}

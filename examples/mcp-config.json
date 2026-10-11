@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "jianxi": {
+      "command": "D:/Workspace/Halo/bin/jianxi.exe",
+      "args": ["mcp", "--renderer", "D:/Workspace/Halo/scripts/compile.mjs"],
+      "env": {
+        "JIANXI_URL": "http://127.0.0.1:8080",
+        "JIANXI_TOKEN": "REPLACE_WITH_YOUR_PRIVATE_MANAGEMENT_TOKEN"
+      }
+    }
+  }
+}

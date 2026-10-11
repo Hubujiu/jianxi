@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "kind": "seo",
+  "source": "手动核查 / 服务商名称",
+  "observedAt": "2026-10-08T12:00:00+08:00",
+  "definition": "指定平台、关键词下观察到的排名，value 为排名位置",
+  "rows": [{"platform":"百度","query":"示例关键词","url":"https://example.cn/posts/example/","value":10,"evidence":"证据链接或可追溯记录","status":"待核验"}]
+}

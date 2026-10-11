@@ -1,0 +1,25 @@
+name: check
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.1'
+          cache: npm
+      - run: npm ci
+      - run: npm run assets
+      - run: go test ./... -count=1
+      - run: go vet ./...
+      - run: go build ./cmd/jianxi
+      - run: docker build -t jianxi:latest .
+      - run: docker build --target mcp -t jianxi-mcp:latest .
+      - run: node scripts/docker-smoke.mjs
+        env:
+          JIANXI_TEST_MCP_IMAGE: jianxi-mcp:latest

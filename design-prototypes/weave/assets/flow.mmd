@@ -1,0 +1,8 @@
+flowchart LR
+    A[Markdown 源内容] --> B[解析与校验]
+    B --> C[代码高亮]
+    B --> D[LaTeX 公式]
+    B --> E[Mermaid 图]
+    C --> F[静态文章页]
+    D --> F
+    E --> F

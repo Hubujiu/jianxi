@@ -1,0 +1,9 @@
+sequenceDiagram
+    participant A as 作者
+    participant B as 内容编译器
+    participant C as 读者
+    A->>B: 提交 Markdown
+    B->>B: 编译公式与图表
+    B-->>A: 返回文章预览
+    A->>B: 确认发布
+    B-->>C: 提供静态阅读页

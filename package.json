@@ -1,0 +1,24 @@
+{
+  "name": "jianxi-build-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "assets": "node scripts/build-assets.mjs",
+    "dev": "go run ./cmd/jianxi serve",
+    "build": "npm run assets && go build -o bin/jianxi ./cmd/jianxi",
+    "test": "go test ./..."
+  },
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "12.0.0",
+    "gsap": "3.14.2",
+    "katex": "0.19.0",
+    "lxgw-wenkai-webfont": "1.7.0",
+    "puppeteer": "25.12.0",
+    "sharp": "0.35.5",
+    "shiki": "4.5.0"
+  },
+  "overrides": {
+    "katex": "$katex"
+  }
+}

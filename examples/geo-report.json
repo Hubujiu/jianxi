@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "kind": "geo",
+  "source": "人工核查 / 服务商名称",
+  "observedAt": "2026-10-08T12:00:00+08:00",
+  "definition": "单个回答是否引用目标 URL；value=1 表示供应商报告有引用，不代表已核验",
+  "rows": [{"platform":"待填写 AI 平台","query":"完整问题样本","url":"https://example.cn/posts/example/","value":1,"evidence":"回答或截图证据的地址","status":"待核验"}]
+}

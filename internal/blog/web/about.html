@@ -1,0 +1,21 @@
+{{define "about"}}
+<section class="about-page" aria-labelledby="profile-name">
+  <header class="about-hero">
+    <p class="eyebrow">A LITTLE ABOUT ME</p>
+    <div class="about-avatar">
+      {{if and .Article .Article.Content.AvatarURL}}<img src="{{profileURL .Article.Content.AvatarURL .Prefix}}" alt="{{profileName .}}的头像" width="96" height="96">{{else}}<span role="img" aria-label="{{profileName .}}的名字头像">{{initial (profileName .)}}</span>{{end}}
+    </div>
+    <p class="about-greeting">你好，很高兴在这里遇见你。</p>
+    <h1 id="profile-name">{{profileName .}}</h1>
+    <p class="about-bio">{{if .Description}}{{.Description}}{{else}}{{.Snap.Settings.Footer}}{{end}}</p>
+  </header>
+  <nav class="about-links" aria-label="个人链接">
+    {{if and .Article .Article.Content.SocialLinks}}
+    <p class="about-links-label">在这里找到我</p>
+    <div class="about-socials">{{range .Article.Content.SocialLinks}}<a class="about-social-link" href="{{profileURL .URL $.Prefix}}"{{if hasPrefix .URL "https://"}} target="_blank" rel="noopener noreferrer"{{end}}>{{template "icon" "link"}}<span>{{.Name}}</span><span class="about-link-arrow" aria-hidden="true">↗</span></a>{{end}}</div>
+    {{end}}
+    <div class="about-site-links"><a href="https://github.com/Hubujiu" target="_blank" rel="noopener noreferrer">{{template "icon" "link"}}<span>GitHub</span><span aria-hidden="true">↗</span></a><a href="{{.Prefix}}/">{{template "icon" "file"}}<span>阅读我的文章</span><span aria-hidden="true">↗</span></a><a href="{{.Prefix}}/timeline/">{{template "icon" "timeline"}}<span>我的时间线</span><span aria-hidden="true">↗</span></a></div>
+  </nav>
+  {{if .Article}}{{if .Article.Content.Markdown}}<div class="about-story prose">{{body .Article .Prefix}}</div>{{end}}{{end}}
+</section>
+{{end}}

@@ -1,0 +1,9 @@
+.git
+node_modules
+data
+bin
+output
+.playwright-cli
+design-prototypes
+.env*
+*.log
