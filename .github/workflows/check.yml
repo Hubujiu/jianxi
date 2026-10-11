@@ -38,6 +38,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run assets
+      - name: Install the same Chinese fonts used by the MCP container
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends fonts-noto-cjk
       - name: Configure Chromium for the hosted CI runner
         run: |
           echo "PUPPETEER_EXECUTABLE_PATH=$(node --input-type=module -e 'import puppeteer from "puppeteer"; import {existsSync} from "node:fs"; const path=await puppeteer.executablePath(); if (!existsSync(path)) throw Error("Chromium executable missing"); console.log(path)')" >> "$GITHUB_ENV"
