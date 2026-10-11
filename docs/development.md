@@ -1,5 +1,21 @@
 # 间隙：开发与运行
 
+## GHCR 自动构建与更新
+
+`.github/workflows/check.yml` 在推送 `main`、推送 `vX.Y.Z` 标签和手动运行时，执行资源构建、Go 测试与静态检查，构建 Linux/amd64 服务端和 MCP 镜像，并通过真实 MCP 上传、编译、发布及备份恢复的容器验收。全部通过后才使用仓库的 `GITHUB_TOKEN` 发布镜像，无需另配发布密钥。Pull Request 执行验收，不发布镜像。
+
+- 服务端：`ghcr.io/hubujiu/jianxi:latest`。
+- MCP：`ghcr.io/hubujiu/jianxi-mcp:latest`。
+- 每次发布同时保留 `sha-完整提交哈希`；稳定版本标签额外发布去掉 `v` 的版本号，例如 `1.0.0`。推送 main 或发布稳定版本后更新 latest。
+
+已有版本可从 Actions 页面手动运行，ref 填写 `v1.0.0`；也可以执行 `gh workflow run check.yml --repo Hubujiu/jianxi --ref main -f ref=v1.0.0`。这会使用当前工作流验证并发布已有标签对应的源码，不移动 Git 标签。
+
+首次发布后，将两个 GHCR package 的可见性设为 Public，使部署电脑和服务器无需保存拉取凭据；镜像不包含站点数据、管理密钥或浏览器会话。Chromium 的无沙箱配置仅用于临时 CI runner 和 MCP 容器，公开服务器不运行 Chromium。
+
+1Panel 编排使用 [deploy/1panel.compose.yaml](../deploy/1panel.compose.yaml)。它保持原 `jianxi-data` 数据卷、容器名、loopback 端口、512 MiB 内存和 2 CPU，镜像改为 GHCR，并设置 `pull_policy: always`。以后在 Actions 成功后，在 1Panel 更新该编排并勾选强制拉取镜像；服务器将拉取并启动新版。镜像发布本身不会自动重启服务器。更新前使用面板备份，回退时将 image 改为已验证的版本号或提交标签，继续使用同一数据卷。
+
+Docker MCP 使用 [examples/mcp-docker-config.json](../examples/mcp-docker-config.json)，每次启动通过 `--pull always` 获取镜像；更新后重新连接 MCP。原生本地 MCP 仍需更新可执行程序，该工作流仅发布容器镜像。
+
 更新：2026-10-11。需求基线仍为 `ai-native-blog/requirements.md`；本文件记录实际实现，不把本地验证等同于生产验收。
 
 当前依赖清单及统一动画方案见 [当前依赖与动效决策](technical-decisions.md)。公开页面和后台共用 `web/static/motion.js`：GSAP 是唯一动画引擎，统一弹簧曲线、时长表和减少动效设置；CSS 保留布局及即时状态反馈。

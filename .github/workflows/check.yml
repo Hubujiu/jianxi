@@ -1,10 +1,33 @@
-name: check
-on: [push, pull_request]
+name: Build, test and publish
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Build main or an existing release tag such as v1.0.0'
+        required: true
+        default: main
+
+concurrency:
+  group: images-${{ github.event_name }}-${{ inputs.ref || github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
 jobs:
-  test:
+  test-and-publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
       - uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
@@ -15,11 +38,63 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run assets
+      - name: Configure Chromium for the hosted CI runner
+        run: |
+          echo "PUPPETEER_EXECUTABLE_PATH=$(node --input-type=module -e 'import puppeteer from "puppeteer"; console.log(puppeteer.executablePath())')" >> "$GITHUB_ENV"
+          echo "JIANXI_CHROMIUM_NO_SANDBOX=1" >> "$GITHUB_ENV"
       - run: go test ./... -count=1
       - run: go vet ./...
       - run: go build ./cmd/jianxi
-      - run: docker build -t jianxi:latest .
-      - run: docker build --target mcp -t jianxi-mcp:latest .
-      - run: node scripts/docker-smoke.mjs
+      - name: Prepare image metadata
+        id: image
+        env:
+          SOURCE_REF: ${{ inputs.ref || github.ref_name }}
+        run: |
+          revision=$(git rev-parse HEAD)
+          echo "revision=$revision" >> "$GITHUB_OUTPUT"
+          echo "prefix=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+          tags="sha-$revision"
+          if [[ "$SOURCE_REF" == main ]]; then
+            tags="$tags latest"
+          elif [[ "$SOURCE_REF" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            tags="$tags ${SOURCE_REF#v} latest"
+          elif [[ "$GITHUB_EVENT_NAME" != pull_request ]]; then
+            echo "Only main and stable vX.Y.Z release tags may publish images" >&2
+            exit 1
+          fi
+          echo "tags=$tags" >> "$GITHUB_OUTPUT"
+      - name: Build server image
+        run: >-
+          docker build --target server -t jianxi:latest
+          --label org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          --label org.opencontainers.image.revision=${{ steps.image.outputs.revision }} .
+      - name: Build MCP image
+        run: >-
+          docker build --target mcp -t jianxi-mcp:latest
+          --label org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          --label org.opencontainers.image.revision=${{ steps.image.outputs.revision }} .
+      - name: Verify both images through the real MCP publishing workflow
+        run: node scripts/docker-smoke.mjs
         env:
           JIANXI_TEST_MCP_IMAGE: jianxi-mcp:latest
+      - name: Log in to GHCR
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish the verified images
+        if: github.event_name != 'pull_request'
+        env:
+          IMAGE_PREFIX: ${{ steps.image.outputs.prefix }}
+          IMAGE_TAGS: ${{ steps.image.outputs.tags }}
+        run: |
+          for suffix in '' '-mcp'; do
+            for tag in $IMAGE_TAGS; do
+              image="$IMAGE_PREFIX$suffix:$tag"
+              docker tag "jianxi$suffix:latest" "$image"
+              docker push "$image"
+              echo "- \`$image\`" >> "$GITHUB_STEP_SUMMARY"
+            done
+          done

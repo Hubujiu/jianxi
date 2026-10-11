@@ -3,10 +3,10 @@
     "jianxi": {
       "command": "docker",
       "args": [
-        "run", "--rm", "-i",
+        "run", "--rm", "-i", "--pull", "always",
         "--memory", "1g", "--shm-size", "256m",
         "-e", "JIANXI_URL", "-e", "JIANXI_TOKEN",
-        "jianxi-mcp:latest"
+        "ghcr.io/hubujiu/jianxi-mcp:latest"
       ],
       "env": {
         "JIANXI_URL": "https://blog.example.com",

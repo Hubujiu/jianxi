@@ -1,0 +1,22 @@
+services:
+  jianxi:
+    image: ghcr.io/hubujiu/jianxi:latest
+    pull_policy: always
+    container_name: jianxi
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - jianxi-data:/data
+    mem_limit: 512m
+    cpus: 2
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+volumes:
+  jianxi-data:
+    name: jianxi-data
