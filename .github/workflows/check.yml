@@ -40,7 +40,7 @@ jobs:
       - run: npm run assets
       - name: Configure Chromium for the hosted CI runner
         run: |
-          echo "PUPPETEER_EXECUTABLE_PATH=$(node --input-type=module -e 'import puppeteer from "puppeteer"; console.log(puppeteer.executablePath())')" >> "$GITHUB_ENV"
+          echo "PUPPETEER_EXECUTABLE_PATH=$(node --input-type=module -e 'import puppeteer from "puppeteer"; import {existsSync} from "node:fs"; const path=await puppeteer.executablePath(); if (!existsSync(path)) throw Error("Chromium executable missing"); console.log(path)')" >> "$GITHUB_ENV"
           echo "JIANXI_CHROMIUM_NO_SANDBOX=1" >> "$GITHUB_ENV"
       - run: go test ./... -count=1
       - run: go vet ./...
